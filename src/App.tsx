@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { askLeo } from './services/ai';
+import ParticleHero from './components/ParticleHero';
 
 // Colors & styles for mascot
 const SKIN = '#F5C5A3';
@@ -184,6 +185,14 @@ function SquaresBackground() {
 // --- MAIN APPLICATION COMPONENT ---
 export default function App() {
   const [navOpen, setNavOpen] = useState(false);
+  const [introVisible, setIntroVisible] = useState(true);
+  useEffect(() => {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    const observer = new IntersectionObserver(([entry]) => setIntroVisible(entry.isIntersecting));
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
   // Mascot assistant state
   const [talking, setTalking] = useState(false);
@@ -426,7 +435,7 @@ export default function App() {
   return (
     <div className="relative min-h-screen text-slate-100 selection:bg-indigo-600 selection:text-white">
       {/* Site Canvas Grid */}
-      <SquaresBackground />
+      {!introVisible && <SquaresBackground />}
 
       {/* --- NAV --- */}
       <nav className="fixed top-0 left-0 right-0 z-50 py-4 backdrop-blur-xl border-b border-white/5 bg-slate-950/60">
@@ -509,8 +518,11 @@ export default function App() {
         )}
       </nav>
 
-      {/* --- HERO SECTION --- */}
-      <section id="hero" className="min-h-screen flex items-center pt-24 pb-12 relative overflow-hidden">
+      {/* --- PARTICLE INTRO --- */}
+      <ParticleHero />
+
+      {/* --- PROFILE SECTION --- */}
+      <section id="profile" className="min-h-screen flex items-center pt-24 pb-12 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 w-full grid md:grid-cols-2 gap-12 items-center relative z-10">
           {/* Left Text */}
           <div className="flex flex-col items-start text-left">
@@ -519,9 +531,9 @@ export default function App() {
               AVAILABLE FOR FREELANCE TRANSFER
             </div>
             <p className="text-slate-400 text-lg font-light mb-1">Hi I am</p>
-            <h1 className="hero-name text-4xl sm:text-6xl font-extrabold tracking-tight mb-2 text-white font-display">
+            <h2 className="hero-name text-4xl sm:text-6xl font-extrabold tracking-tight mb-2 text-white font-display">
               Muhammad Uzair
-            </h1>
+            </h2>
             <h2 className="text-2xl sm:text-3xl font-bold text-orange-500 mb-6 font-display min-h-[40px]">
               <Typewriter />
             </h2>
@@ -1098,7 +1110,7 @@ export default function App() {
       {/* ═════════════════════════════════════════════ */}
       {/* ═══════════ FLOATING AI MASCOT ═══════════ */}
       {/* ═════════════════════════════════════════════ */}
-      {assistantVisible && (
+      {assistantVisible && !introVisible && (
         <div
           ref={mascotRef}
           style={{
@@ -1420,7 +1432,7 @@ export default function App() {
       )}
 
       {/* Floating Toggle button to bring assistant back if hidden */}
-      {!assistantVisible && (
+      {!assistantVisible && !introVisible && (
         <button
           onClick={() => {
             setAssistantVisible(true);
