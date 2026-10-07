@@ -11,7 +11,7 @@ The opening hero recreates the visible star-field style of the supplied referenc
 - Reduced-motion users see the completed shape without continuous motion.
 - Mobile uses fewer particles and caps rendering resolution.
 
-The opening labels are Muhammad / Uzair. Your previous hero is now the profile section directly below. All existing sections and assistant functionality are retained. The assistant and old grid background appear below the opening hero, so they do not cover the particle animation or its controls.
+The opening labels are Muhammad / Uzair. The redesigned portfolio follows the opening scene: introduction, selected projects with filters and build notes, About, capabilities, and contact. The compact Leo assistant appears below the opening hero, keeping the particle animation and controls unobstructed. Fonts are self-hosted; their licenses are included in public/fonts.
 
 ## Run and deploy
 
@@ -34,10 +34,13 @@ Double-click ANIMATION-PREVIEW.html to view the animation without installing any
 
 ## Files changed
 
-- src/App.tsx: mounts the particle intro and moves the existing hero to #profile.
+- src/App.tsx: mounts the particle intro and the editorial portfolio sections.
 - src/components/ParticleHero.tsx: labels, links, replay and scroll binding.
 - src/components/particle-field.js: Canvas renderer and interaction lifecycle.
 - src/components/particle-field.d.ts: TypeScript API.
 - src/components/particle-hero.css: desktop and mobile styling.
+- src/components/PortfolioAssistant.tsx: compact chat, keyboard close, and optional voice.
+- src/components/Icon.tsx: consistent inline icons.
+- src/index.css: typography, project layouts, and responsive styling.
 
 To change labels, pass leftLabel and rightLabel to ParticleHero in App.tsx. To force a lower particle count, pass quality="low".
